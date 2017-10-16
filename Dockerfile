@@ -1,13 +1,11 @@
 # base image
-FROM kyma/docker-nginx
+FROM nginx
 
 # Move in necessary assets
 COPY data/container_bash_profile /root/.bashrc
-COPY files/ /var/www
+COPY files/ /usr/share/nginx/html
 
-# port and run command
 EXPOSE 80
-CMD 'nginx'
 
 #
 # end of file

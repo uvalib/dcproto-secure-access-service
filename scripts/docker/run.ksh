@@ -7,6 +7,11 @@ fi
 INSTANCE=docker-nginx
 NAMESPACE=uvadave
 
+# volume mapping
+HOST_FS=/lib_content102/htrc-dc-secure/wav
+CONTAINER_FS=/usr/share/nginx/html
+VOLUME_MAP="-v $HOST_FS:$CONTAINER_FS"
+
 # stop the running instance
 docker stop $INSTANCE
 
@@ -17,9 +22,10 @@ docker rm $INSTANCE
 docker rmi $NAMESPACE/$INSTANCE:current  
 
 # tag the latest as the current
-docker tag -f $NAMESPACE/$INSTANCE:latest $NAMESPACE/$INSTANCE:current
+docker tag $NAMESPACE/$INSTANCE:latest $NAMESPACE/$INSTANCE:current
 
-docker run -d -p 8380:80 --log-opt tag=$INSTANCE --name $INSTANCE $NAMESPACE/$INSTANCE:latest
+# and run it
+docker run -p 8380:80 $VOLUME_MAP --log-opt tag=$INSTANCE --name $INSTANCE $NAMESPACE/$INSTANCE:latest
 
 # return status
 exit $?

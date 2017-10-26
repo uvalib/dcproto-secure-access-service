@@ -25,7 +25,7 @@ docker rmi $NAMESPACE/$INSTANCE:current
 docker tag $NAMESPACE/$INSTANCE:latest $NAMESPACE/$INSTANCE:current
 
 # and run it
-docker run -p 8380:80 $VOLUME_MAP --log-opt tag=$INSTANCE --name $INSTANCE $NAMESPACE/$INSTANCE:latest
+docker run -d -p 8380:80 $VOLUME_MAP --log-opt tag=$INSTANCE --name $INSTANCE $NAMESPACE/$INSTANCE:latest
 
 # return status
 exit $?

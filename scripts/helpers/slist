@@ -1,0 +1,16 @@
+#
+# helper to list filed from the 'secure' data source
+#
+
+# our source
+SOURCE_URL=http://docker3.lib.virginia.edu:8380
+
+curl $SOURCE_URL 2>/dev/null | jq '.[] | "\(.name) - \(.size) bytes"' | tr -d "\""
+res=$?
+
+# and we are done
+exit $res
+
+#
+# end of file
+#

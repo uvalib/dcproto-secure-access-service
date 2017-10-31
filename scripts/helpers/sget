@@ -1,0 +1,42 @@
+#
+# helper to get a file from the 'secure' data source
+#
+
+# our source
+SOURCE_URL=http://docker3.lib.virginia.edu:8380
+
+# check command line args
+if [ $# -eq 0 ]; then
+   echo "Get a file from the secure container and copy to the current directory"
+   echo "use: $0 <source file>"
+   exit 1
+fi
+
+FILE=$1
+
+# determine if the file exists
+status=$(curl -I $SOURCE_URL/$FILE 2>/dev/null | head -1 | awk '{print $2}')
+
+if [ "$status" == "200" ]; then
+
+   # get it
+   curl $SOURCE_URL/$FILE -# --output ./$FILE
+   res=$?
+   if [ $res -eq 0 ]; then
+      echo "OK"
+   else
+      echo "ERROR"
+   fi
+
+   # and we are done
+   exit $res
+else
+   echo "Got HTTP $status"
+fi
+
+# and we are done
+exit 1
+
+#
+# end of file
+#
